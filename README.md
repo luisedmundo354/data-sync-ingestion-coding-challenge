@@ -2,6 +2,34 @@
 
 Build a production-ready data ingestion system that extracts event data from the DataSync Analytics API and stores it in a PostgreSQL database.
 
+## Solution (This Repo)
+
+This repo includes a single-worker TypeScript ingestion service in `packages/ingestion`.
+
+### How Node/TypeScript Works Here
+
+- **TypeScript** (`.ts`) is compiled to JavaScript (`.js`) using `tsc` into `packages/ingestion/dist/`.
+- `npm run dev` uses `tsx` to run TypeScript directly (no build step).
+- In Docker, the image builds the TypeScript output and runs `node dist/index.js`.
+
+### Step-By-Step Verification
+
+1. Create `.env` from `.env.example` and set `TARGET_API_KEY`.
+2. Start Postgres only:
+   - `docker compose up -d postgres`
+3. Run ingestion locally (fast feedback):
+   - `cd packages/ingestion`
+   - `npm install`
+   - `npm run dev`
+4. Verify DB is receiving events:
+   - `docker exec assignment-postgres psql -U postgres -d ingestion -c "select count(*) from ingested_events;"`
+5. Full end-to-end (what reviewers run):
+   - From repo root: `sh run-ingestion.sh`
+
+To simulate a clean run from scratch (wipe DB volume):
+- `docker compose down -v`
+- `sh run-ingestion.sh`
+
 ## Requirements
 
 Your solution must:
