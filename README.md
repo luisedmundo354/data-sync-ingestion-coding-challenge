@@ -2,6 +2,12 @@
 
 Build a production-ready data ingestion system that extracts event data from the DataSync Analytics API and stores it in a PostgreSQL database.
 
+## AI tools used
+
+I used codex CLI to generate the code. First, I read the requirements and made a plan. Then, I had the language model implement the code one step at a time.
+I checked the code myself and also ran it to make sure it worked.
+I also checked the API endpoint manually.
+
 ## Solution (This Repo)
 
 This repo includes a single-worker TypeScript ingestion service in `packages/ingestion`.

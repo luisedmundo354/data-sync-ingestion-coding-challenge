@@ -67,8 +67,12 @@ function readChaosInfo(res: Response): ChaosInfo {
 export function parseTimestampMs(value: unknown): number {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string") {
-    if (/^\d+$/.test(value)) return Number(value);
-    const parsed = Date.parse(value);
+    const cleaned = value
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
+      .replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+      .trim();
+    if (/^\d+$/.test(cleaned)) return Number(cleaned);
+    const parsed = Date.parse(cleaned);
     if (Number.isFinite(parsed)) return parsed;
   }
   throw new Error(`Unparseable timestamp: ${String(value)}`);
